@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class RemainingNotificationParameter extends Model
+{
+    use SoftDeletes,HasFactory;
+
+
+    protected $table = 'remaining_notification_parameters';
+
+    protected $fillable = [
+        'last_update',
+        'scdp_delay_day',
+        'service_station_id',
+        'critic_limit'
+    ];
+
+    public function serviceStation(): BelongsTo
+    {
+        return $this->belongsTo(ServiceStation::class, "service_station_id");
+    }
+}
