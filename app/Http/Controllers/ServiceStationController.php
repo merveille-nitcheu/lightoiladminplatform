@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\ServiceStation;
 use App\Models\StationProduct;
-use App\Http\Resources\ServiceStationRessource;
-use App\Models\Company;
+use App\Http\Resources\TankRessource;
 use App\Models\RemainingNotificationParameter;
+use App\Http\Resources\ServiceStationRessource;
 
 class ServiceStationController extends Controller
 {
@@ -100,10 +101,10 @@ class ServiceStationController extends Controller
         $tankList = [];
         foreach ($stationProducts as $key => $stationProduct) {
 
-            $totalTank=+$stationProduct->tanks->count();
-            $tanks = $stationProduct->tanks->pluck('name')->toArray();
+            $totalTank += $stationProduct->tanks->count();
+            $tanks = $stationProduct->tanks->toArray();
             $tankList = array_merge($tankList, $tanks);
-            array_push($products, $stationProduct->product->name);
+            array_push($products, $stationProduct->product);
         }
 
         $additionaldata = [

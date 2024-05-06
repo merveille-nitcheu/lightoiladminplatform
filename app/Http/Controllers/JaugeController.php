@@ -19,11 +19,13 @@ class JaugeController extends Controller
     public function storejauge(Request $request)
     {
 
+        $sondeName = strtolower($request->name);
 
+        $code = 'autres';
 
-        $prefix = strtoupper(substr($request->name, 0, 3));
-        $randomChars = rand(1000, 5000);
-        $code = $prefix . $randomChars;
+        if (strpos($sondeName, 'ultrasons') !== false) {
+            $code = 'ultrasons';
+        }
 
         try {
             $jauge = Jauge::firstOrCreate([
@@ -42,6 +44,24 @@ class JaugeController extends Controller
                 "message" => "Echec de la creation de la jauge",
                 "error" => $th
             ], 500);
+        }
+    }
+
+
+    public function showJauge($jaugeId)
+    {
+
+        $jauge = Jauge::findOrFail($jaugeId);
+        try {
+            return response()->json([
+                "message" => "Jauge visualisée avec succès",
+                "data" => new JaugeResource($jauge),
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                "message" => "Echec de la methode show",
+                "error" => $th
+            ], 422);
         }
     }
 
@@ -80,9 +100,9 @@ class JaugeController extends Controller
     {
 
 
-        $product = Jauge::findOrFail($jaugeId);
+        $jauge = Jauge::findOrFail($jaugeId);
         try {
-            $product->delete();
+            $jauge->delete();
             return response()->json([
                 "message" => "jauge supprimée avec succès",
             ], 200);
@@ -93,4 +113,31 @@ class JaugeController extends Controller
             ], 422);
         }
     }
+
+    public function getCodebyJaugeId($jaugeId)
+    {
+        $jauge = Jauge::findOrFail($jaugeId);
+        if($jauge->code == 'ultrasons'){
+            return response()->json([
+                "message" => "Jauge à ultrasons",
+                "response" => true
+            ], 200);
+        }else {
+            return response()->json([
+                "message" => "Autres jauges",
+                "response" => false
+            ], 200);
+        }
+
+        try {
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                "message" => "Echec de la suppression de la jauge",
+                "error" => $th
+            ], 422);
+        }
+    }
+
+
 }

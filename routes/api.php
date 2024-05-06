@@ -51,3 +51,4 @@ Route::post('jauge/storejauge', [JaugeController::class, 'storejauge']);
 Route::get('jauge/showjauge/{jaugeId}', [JaugeController::class, 'showjauge']);
 Route::post('jauge/updatejauge/{jaugeId}', [JaugeController::class, 'updatejauge']);
 Route::delete('jauge/destroyjauge/{jaugeId}', [JaugeController::class, 'destroyjauge']);
+Route::get('jauge/getCodebyJaugeId/{jaugeId}', [JaugeController::class, 'getCodebyJaugeId']);
