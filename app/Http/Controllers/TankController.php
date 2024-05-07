@@ -129,24 +129,28 @@ class TankController extends Controller
     public function updatetank(Request $request, string $tankId)
     {
         $tank = Tank::findOrFail($tankId);
-        $service_station = ServiceStation::whereIn('name', $request->name_ss)->get();
-        $product = Product::whereIn('code', $request->codeProduct)->get();
-        $stationProduct = StationProduct::whereStrict('product_id', $product->id)
-            ->where('service_station_id', $service_station->id)
-            ->first();
+        $correction_datas = Correction_datas::where('tank_id',$tank->id);
+        $abacus = implode(';', $request->abacusResults);
+        $data_level = implode(';', $request->data_level);
+        $data_temp = implode(';', $request->data_temp);
+        $data_pressure = implode(';', $request->data_pressure);
+
 
         try {
             $tank->update([
-                'abacus' => $request->abacus,
-                'diameter' => $request->diameter,
-                'file_path' => $request->file_path,
-                'liquid_type' => $request->liquid_type,
-                'man_hole_height' => $request->logo,
+                'abacus' => $abacus,
+                'man_hole_height' => $request->man_hole_height,
                 'sensor_depth' => $request->sensor_depth,
                 'sensor_reference' => $request->sensor_reference,
-                'time_out' => $request->time_out,
-                'pub_reference' => $request->pub_reference,
-                'station_product_id' => $stationProduct->id,
+                'level_active_depotage' => $request->level_active_depotage,
+
+
+            ]);
+            $correction_datas->update([
+
+                'data_level' => $data_level,
+                'data_temp' => $data_temp,
+                'data_pressure' => $data_pressure,
 
 
             ]);
@@ -167,7 +171,7 @@ class TankController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroytank(array $tankId)
+    public function destroytank( $tankId)
     {
         $tank = Tank::findOrFail($tankId);
         try {

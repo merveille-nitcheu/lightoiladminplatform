@@ -26,6 +26,7 @@ class TankRessource extends JsonResource
             'sensor_depth' =>  $this->sensor_depth,
             'sensor_reference' =>  $this->sensor_reference,
             'time_out' =>  $this->time_out,
+            'level_active_depotage' =>  $this->level_active_depotage,
             'jauge' =>  $this->jauge,
             'correction_data' =>  $this->correctionData,
             'pub_reference'=>  $this->pub_reference,
