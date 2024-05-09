@@ -132,26 +132,31 @@ class ServiceStationController extends Controller
     public function updateservicestation(Request $request, string $stationId)
     {
         $product = Product::whereIn('code', $request->code)->get();
-
         $service_station = ServiceStation::findOrFail($stationId);
-        $stationProduct = StationProduct::findOrFail($service_station->id);
+        $remainingnotif = RemainingNotificationParameter::where('service_station_id',$service_station->id);
+
+
+
         try {
             $service_station->update([
                 'name' => $request->name,
-                'address' => $request->address,
-                'phone' => $request->phone,
-                'display_name' => $request->display_name,
-                'logo' => $request->logo ? $request->logo->storeAs('images/App', $request->nom . '.' . $request->logo->extension(), 'public') : null,
-                'website' => $request->website,
+                'city' => $request->city,
+                'gmt' =>  $request->gmt,
+                'description' =>  $request->description,
+                'latitude' =>  $request->latitude,
+                'longitude' =>  $request->longitude
+            ]);
+
+            $remainingnotif->update([
+                'scdp_delay_day' => $request->scdp_delay_day,
+                'critic_limit' => $request->critic_limit,,
+
+
+
             ]);
 
 
-            $stationProduct->update([
-                'service_station_id' => $service_station->id,
-                'product_id' => $product->id,
 
-
-            ]);
 
 
             return response()->json([
