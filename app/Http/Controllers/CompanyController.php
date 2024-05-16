@@ -5,17 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Models\FinancialYear;
-use App\Http\Requests\CompagnyRequest;
-use App\Http\Resources\CompagnyRessource;
+use App\Http\Requests\CompanyRequest;
+use App\Http\Resources\CompanyRessource;
 
-class CompagnyController extends Controller
+class CompanyController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function getallcompagnies()
     {
-        return CompagnyRessource::collection(Company::orderByDesc('created_at')->get());
+        return CompanyRessource::collection(Company::orderByDesc('created_at')->get());
     }
 
 
@@ -23,7 +23,7 @@ class CompagnyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function storecompany(CompagnyRequest $request)
+    public function storecompany(CompanyRequest $request)
     {
         try {
             $company = Company::firstOrCreate([
@@ -43,7 +43,7 @@ class CompagnyController extends Controller
 
             return response()->json([
                 "message" => "Entreprise créee avec succès",
-                "data" => new CompagnyRessource($company)
+                "data" => new CompanyRessource($company)
             ], 200);
         } catch (\Throwable $th) {
 
@@ -64,7 +64,7 @@ class CompagnyController extends Controller
         try {
             return response()->json([
                 "message" => "Entreprise visualisée avec succès",
-                "data" => new CompagnyRessource($company),
+                "data" => new CompanyRessource($company),
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
@@ -79,7 +79,7 @@ class CompagnyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function updatecompany(CompagnyRequest $request, string $companyId)
+    public function updatecompany(CompanyRequest $request, string $companyId)
     {
 
         $company = Company::findOrFail($companyId);
@@ -96,7 +96,7 @@ class CompagnyController extends Controller
 
             return response()->json([
                 "message" => "Entreprise modifiée avec succès",
-                "data" => new CompagnyRessource($company)
+                "data" => new CompanyRessource($company)
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([

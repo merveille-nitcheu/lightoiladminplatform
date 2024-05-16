@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CompagnyRessource extends JsonResource
+class CompanyRessource extends JsonResource
 {
     /**
      * Transform the resource into an array.

@@ -1,12 +1,12 @@
 <?php
 
-use App\Models\Tank;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TankController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\JaugeController;
-use App\Http\Controllers\CompagnyController;
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ServiceStationController;
 
 Route::get('/user', function (Request $request) {
@@ -16,39 +16,49 @@ Route::get('/user', function (Request $request) {
 /* Route::middleware('AuthMiddleware')->group(function(){}); */
 
 
-/* company routes */
-Route::get('company/getallcompagnies', [CompagnyController::class, 'getallcompagnies']);
-Route::post('company/storecompany', [CompagnyController::class, 'storecompany']);
-Route::get('company/showcompany/{companyId}', [CompagnyController::class, 'showcompany']);
-Route::post('company/updatecompany/{companyId}', [CompagnyController::class, 'updatecompany']);
-Route::delete('company/destroycompany/{companyId}', [CompagnyController::class, 'destroycompany']);
+// Company routes
+Route::prefix('company')->group(function() {
+    Route::get('getallcompanies', [CompanyController::class, 'getallcompanies']);
+    Route::post('storecompany', [CompanyController::class, 'storecompany']);
+    Route::get('showcompany/{companyId}', [CompanyController::class, 'showcompany']);
+    Route::post('updatecompany/{companyId}', [CompanyController::class, 'updatecompany']);
+    Route::delete('destroycompany/{companyId}', [CompanyController::class, 'destroycompany']);
+});
 
-/* service_Station routes */
-Route::get('servicestation/getallservicestation', [ServiceStationController::class, 'getallservicestation']);
-Route::post('servicestation/storeservicestation', [ServiceStationController::class, 'storeservicestation']);
-Route::get('servicestation/showservicestation/{stationId}', [ServiceStationController::class, 'showservicestation']);
-Route::post('servicestation/updateservicestation/{stationId}', [ServiceStationController::class, 'updateservicestation']);
-Route::delete('servicestation/destroyservicestation/{stationId}', [ServiceStationController::class, 'destroyservicestation']);
+// Service Station routes
+Route::prefix('servicestation')->group(function() {
+    Route::get('getallservicestation', [ServiceStationController::class, 'getallservicestation']);
+    Route::post('storeservicestation', [ServiceStationController::class, 'storeservicestation']);
+    Route::get('showservicestation/{stationId}', [ServiceStationController::class, 'showservicestation']);
+    Route::post('updateservicestation/{stationId}', [ServiceStationController::class, 'updateservicestation']);
+    Route::delete('destroyservicestation/{stationId}', [ServiceStationController::class, 'destroyservicestation']);
+});
 
-/* product routes */
-Route::get('product/getallproduct', [ProductController::class, 'getallproduct']);
-Route::post('product/storeproduct', [ProductController::class, 'storeproduct']);
-Route::get('product/showproduct/{productId}', [ProductController::class, 'showproduct']);
-Route::post('product/updateproduct/{productId}', [ProductController::class, 'updateproduct']);
-Route::delete('product/destroyproduct/{productId}', [ProductController::class, 'destroyproduct']);
+// Product routes
+Route::prefix('product')->group(function() {
+    Route::get('getallproduct', [ProductController::class, 'getallproduct']);
+    Route::post('storeproduct', [ProductController::class, 'storeproduct']);
+    Route::get('showproduct/{productId}', [ProductController::class, 'showproduct']);
+    Route::post('updateproduct/{productId}', [ProductController::class, 'updateproduct']);
+    Route::delete('destroyproduct/{productId}', [ProductController::class, 'destroyproduct']);
+});
 
-/* tank routes */
-Route::get('tank/getalltank', [TankController::class, 'getalltank']);
-Route::post('tank/storetank', [TankController::class, 'storetank']);
-Route::get('tank/showtank/{tankId}', [TankController::class, 'showtank']);
-Route::post('tank/updatetank/{tankId}', [TankController::class, 'updatetank']);
-Route::delete('tank/destroytank/{tankId}', [TankController::class, 'destroytank']);
+// Tank routes
+Route::prefix('tank')->group(function() {
+    Route::get('getalltank', [TankController::class, 'getalltank']);
+    Route::post('storetank', [TankController::class, 'storetank']);
+    Route::get('showtank/{tankId}', [TankController::class, 'showtank']);
+    Route::post('updatetank/{tankId}', [TankController::class, 'updatetank']);
+    Route::delete('destroytank/{tankId}', [TankController::class, 'destroytank']);
+});
 
 
 /* jauges routes */
-Route::get('jauge/getalljauge', [JaugeController::class, 'getalljauge']);
-Route::post('jauge/storejauge', [JaugeController::class, 'storejauge']);
-Route::get('jauge/showjauge/{jaugeId}', [JaugeController::class, 'showjauge']);
-Route::post('jauge/updatejauge/{jaugeId}', [JaugeController::class, 'updatejauge']);
-Route::delete('jauge/destroyjauge/{jaugeId}', [JaugeController::class, 'destroyjauge']);
-Route::get('jauge/getCodebyJaugeId/{jaugeId}', [JaugeController::class, 'getCodebyJaugeId']);
+Route::prefix('jauge')->group(function() {
+    Route::get('getalljauge', [JaugeController::class, 'getalljauge']);
+    Route::post('storejauge', [JaugeController::class, 'storejauge']);
+    Route::get('showjauge/{jaugeId}', [JaugeController::class, 'showjauge']);
+    Route::post('updatejauge/{jaugeId}', [JaugeController::class, 'updatejauge']);
+    Route::delete('destroyjauge/{jaugeId}', [JaugeController::class, 'destroyjauge']);
+    Route::get('getCodebyJaugeId/{jaugeId}', [JaugeController::class, 'getCodebyJaugeId']);
+});
