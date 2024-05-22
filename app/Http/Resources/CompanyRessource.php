@@ -20,6 +20,7 @@ class CompanyRessource extends JsonResource
             'name' => ucfirst($this->name),
             'address' => $this->address,
             'id' => $this->id,
+            'email' => $this->email,
             'phone' => $this->phone,
             'website' => $this->website,
             'logo' => Storage::url($this->logo),
@@ -27,11 +28,7 @@ class CompanyRessource extends JsonResource
             'display_name' =>  $this->display_name,
             'nbstations'=>  $this->serviceStations->count(),
             'servicestations'=> ServiceStationRessource::collection($this->whenLoaded('serviceStations')),
-            'financialYear' => [
-                'start_date' => optional($this->financialYear)->start_date,
-                'expected_end_date' => optional($this->financialYear)->expected_end_date,
 
-            ],
 
         ];
     }

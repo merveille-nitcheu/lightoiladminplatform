@@ -41,7 +41,7 @@ class ServiceStationController extends Controller
 
             $service_station= ServiceStation::firstOrCreate([
                 'name' => $basicInformation['name'],
-                'city' => $localisationInformation['ville'],
+                'city' => $localisationInformation['address'],
                 'gmt' => $localisationInformation['fuseau_horaire'],
                 'description' => $basicInformation['description'],
                 'back_image_link' => $basicInformation['logo_ss']? $basicInformation['logo_ss']->storeAs('images/App', $basicInformation['name'] . '.' . $basicInformation['logo_ss']->extension(), 'public') : null,
@@ -131,7 +131,6 @@ class ServiceStationController extends Controller
      */
     public function updateservicestation(Request $request, string $stationId)
     {
-        $product = Product::whereIn('code', $request->code)->get();
         $service_station = ServiceStation::findOrFail($stationId);
         $remainingnotif = RemainingNotificationParameter::where('service_station_id',$service_station->id);
 
@@ -149,9 +148,7 @@ class ServiceStationController extends Controller
 
             $remainingnotif->update([
                 'scdp_delay_day' => $request->scdp_delay_day,
-                'critic_limit' => $request->critic_limit,,
-
-
+                'critic_limit' => $request->critic_limit,
 
             ]);
 

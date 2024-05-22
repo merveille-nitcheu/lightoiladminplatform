@@ -13,7 +13,7 @@ class CompanyController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function getallcompagnies()
+    public function getallcompanies()
     {
         return CompanyRessource::collection(Company::orderByDesc('created_at')->get());
     }
@@ -30,6 +30,7 @@ class CompanyController extends Controller
                 'name' => $request->name,
                 'address' => $request->address,
                 'phone' => $request->phone,
+                'email' => $request->email,
                 'logo' => $request->logo ? $request->logo->storeAs('images/App', $request->nom . '.' . $request->logo->extension(), 'public') : null,
                 'website' => $request->website,
             ]);
@@ -60,11 +61,14 @@ class CompanyController extends Controller
     public function showcompany(string $companyId)
     {
         $company = Company::with('serviceStations')->findOrFail($companyId);
+        $financialYear = $company->financialYear->first();
 
         try {
             return response()->json([
                 "message" => "Entreprise visualisée avec succès",
                 "data" => new CompanyRessource($company),
+                "financialYear" => $financialYear,
+
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
@@ -83,14 +87,21 @@ class CompanyController extends Controller
     {
 
         $company = Company::findOrFail($companyId);
+        $financialYear = $company->financialYear->first();
         try {
             $company->update([
                 'name' => $request->name,
                 'address' => $request->address,
+                'email' => $request->email,
                 'phone' => $request->phone,
                 'display_name' => $request->display_name,
                 'logo' => $request->logo ? $request->logo->storeAs('images/App', $request->name . '.' . $request->logo->extension(), 'public') : null,
                 'website' => $request->website,
+
+            ]);
+            $financialYear->update([
+                'start_date' => $request->start_date,
+                'expected_end_date' => $request->expected_end_date,
 
             ]);
 

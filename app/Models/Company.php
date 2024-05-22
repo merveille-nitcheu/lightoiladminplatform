@@ -18,6 +18,7 @@ class Company extends Model
         'last_update',
         'name',
         'phone',
+        'email',
         'website',
         'logo'
     ];
