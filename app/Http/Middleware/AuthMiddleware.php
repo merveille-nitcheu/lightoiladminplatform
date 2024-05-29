@@ -18,12 +18,13 @@ class AuthMiddleware
     {
         $accessToken = $request->header('Authorization');
         $user= Auth::user();
+        return response()->json(['message' => $accessToken], 401);
        /*  compare the accestoken of user connected with accestoken in request */
-        if($user && $accessToken == $user->tokens->first()){
-            return $next($request);
-        }else{
-            return response()->json(['message' => 'Unauthorized user'], 401);
-        }
+        // if($user && $accessToken == $user->tokens->first()){
+        //     return $next($request);
+        // }else{
+        //     return response()->json(['message' => 'Unauthorized user'], 401);
+        // }
 
     }
 }

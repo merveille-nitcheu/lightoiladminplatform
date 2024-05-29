@@ -32,7 +32,8 @@ class TankRessource extends JsonResource
             'pub_reference'=>  $this->pub_reference,
             'stationProduct' => [
                 'nameproduct' => optional($this->stationProduct)->product,
-                'name_stationservice' => optional($this->stationProduct)->serviceStation],
+                'name_stationservice' => optional($this->stationProduct)->serviceStation,
+            ],
 
         ];
     }

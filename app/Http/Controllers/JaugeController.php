@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class JaugeController extends Controller
 {
+
+    public function normalizeName($name) {
+        $name = iconv('UTF-8', 'ASCII//TRANSLIT', $name);
+        $name = str_replace(' ', '_', $name);
+        return $name;
+    }
+
     public function getalljauge()
     {
         return JaugeResource::collection(Jauge::orderByDesc('created_at')->get());
@@ -19,13 +26,8 @@ class JaugeController extends Controller
     public function storejauge(Request $request)
     {
 
-        $sondeName = strtolower($request->name);
 
-        $code = 'autres';
-
-        if (strpos($sondeName, 'ultrasons') !== false) {
-            $code = 'ultrasons';
-        }
+        $code = $this->normalizeName($request->name);
 
         try {
             $jauge = Jauge::firstOrCreate([
@@ -117,7 +119,9 @@ class JaugeController extends Controller
     public function getCodebyJaugeId($jaugeId)
     {
         $jauge = Jauge::findOrFail($jaugeId);
-        if($jauge->code == 'ultrasons'){
+
+
+        if(strpos($jauge->code, 'ultrasons') !== false){
             return response()->json([
                 "message" => "Jauge à ultrasons",
                 "response" => true
@@ -138,6 +142,9 @@ class JaugeController extends Controller
             ], 422);
         }
     }
+
+
+
 
 
 }
